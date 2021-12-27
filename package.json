@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "inquirer": "^8.2.0"
+  },
+  "name": "teamprofilegenerator",
+  "description": "A dynamic app using node.js to create the profiles of team members for a project.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arcanaut/TeamProfileGenerator.git"
+  },
+  "keywords": [
+    "npm",
+    "inquirer",
+    "jest",
+    "generator"
+  ],
+  "author": "Brendan Ahearn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Arcanaut/TeamProfileGenerator/issues"
+  },
+  "homepage": "https://github.com/Arcanaut/TeamProfileGenerator#readme",
+  "devDependencies": {
+    "jest": "^27.4.5"
+  }
+}
