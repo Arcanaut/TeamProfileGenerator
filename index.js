@@ -6,7 +6,6 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 
 // team profiles
-const Employee = require('./Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
@@ -134,7 +133,7 @@ async function questions() {
                     default: false
                 }
             ])
-            //then push the content from the engineer array to a new Engineer class instance filling in the respective methods
+            //pushes engineer data from array in to new class
             .then(({
                 github,
                 extraEntry: extraEntry1
@@ -146,7 +145,7 @@ async function questions() {
                 }
             });
     }
-    //Then if the employee is an intern, ask these additional questions
+    //Then if  employee is an intern, asks these questions too
     else if (role === 'Intern') {
         return inquirer
             .prompt([{
@@ -156,19 +155,19 @@ async function questions() {
                 },
                 {
                     type: 'confirm',
-                    name: 'anotherEntry',
+                    name: 'extraEntry',
                     message: "What you like to add another employee?",
                     default: false
                 }
             ])
-            //then push the content from the intern array to a new Intern class instance filling in the respective methods
+            //pushes intern data from array in to new class
             .then(({
                 school,
-                anotherEntry: anotherEntry2
+                extraEntry: extraEntry2
             }) => {
                 intern.push(new Intern(employee, id, email, school));
 
-                if (anotherEntry2) {
+                if (extraEntry2) {
                     return questions();
                 }
             });
@@ -176,26 +175,32 @@ async function questions() {
 };
 
 
-
-
-
-// function to generate HTML page file using file system 
-const writeFile = data => {
-    fs.writeFile('./dist/index.html', data, err => {
-        // if there is an error 
-        if (err) {
-            console.log(err);
-            return;
-            // when the profile has been created 
-        } else {
-            console.log(`
-            ========================================
-            |Team Profile created inside dist folder|
-            ========================================
-           `)
-        }
+//initialize app by calling the questions function
+questions()
+    //then take the data from questions function and populate data into html template
+    .then(data => {
+        return (teamArray)
     })
-};
+    //then write the content of the html-layout.js file to a new HTML file in the dist folder
+    .then(fileContent => {
+        return new Promise((resolve, reject) => {
+            fs.writeFile('./dist/index.html', fileContent, err => {
+                //if there is an error return err
+                if (err) {
+                    reject(err);
 
-writeFile();
+                    return;
+                }
+                //if there are no errors resolve and notify the user that their html file has been created
+                resolve({
+                    ok: true,
+                    message: console.log(`
+                        ========================================
+                        |Team Profile created inside dist folder|
+                        ========================================
+                    `),
 
+                })
+            })
+        })
+    })
