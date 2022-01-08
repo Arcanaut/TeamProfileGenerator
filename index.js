@@ -1,14 +1,16 @@
 // link to page creation
 const generateHTML = require('./src/generateHTML');
 
+// node modules 
+const fs = require('fs');
+const inquirer = require('inquirer');
+
 // team profiles
+const Employee = require('./Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
-// node modules 
-const fs = require('fs');
-const inquirer = require('inquirer');
 
 // team array
 const teamArray = [];
@@ -109,7 +111,7 @@ const addEmployee = () => {
                     if (nameInput) {
                         return true;
                     } else {
-                        console.log("Please enter an employee's name!");
+                        console.log("Employee name required");
                         return false;
                     }
                 }
@@ -120,7 +122,7 @@ const addEmployee = () => {
                 message: "Please enter the employee's ID.",
                 validate: nameInput => {
                     if (isNaN(nameInput)) {
-                        console.log("Please enter the employee's ID!")
+                        console.log("Employee ID required")
                         return false;
                     } else {
                         return true;
@@ -136,7 +138,7 @@ const addEmployee = () => {
                     if (valid) {
                         return true;
                     } else {
-                        console.log('Please enter an email!')
+                        console.log('Email required')
                         return false;
                     }
                 }
@@ -150,7 +152,7 @@ const addEmployee = () => {
                     if (nameInput) {
                         return true;
                     } else {
-                        console.log("Please enter the employee's github username!")
+                        console.log("Github username required")
                     }
                 }
             },
@@ -163,7 +165,7 @@ const addEmployee = () => {
                     if (nameInput) {
                         return true;
                     } else {
-                        console.log("Please enter the intern's school!")
+                        console.log("Intern's school required")
                     }
                 }
             },
@@ -220,7 +222,7 @@ const writeFile = data => {
             return;
             // when the profile has been created 
         } else {
-            console.log("Your team profile has been successfully created! Please check out the index.html")
+            console.log("Team Profile created at index.html")
         }
     })
 };
@@ -236,10 +238,7 @@ addManager()
     .catch(err => {
         console.log(err);
     });
-const fs = require('fs');
-const inquirer = require('inquirer');
-// importing Employee constructor 
-const Employee = require('./Employee');
+
 
 // intern constructor extends employee constructor 
 class Intern extends Employee  {
@@ -260,6 +259,8 @@ class Intern extends Employee  {
         return "Intern";
     }
 }
+
+writeFile();
 
 // to be exported 
 module.exports = Intern; 
