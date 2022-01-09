@@ -6,20 +6,16 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 
 // team profiles
-const Manager = require('./lib/Manager');
-const Engineer = require('./lib/Engineer');
-const Intern = require('./lib/Intern');
+const generateManager = require('./lib/Manager');
+const generateEngineer = require('./lib/Engineer');
+const generateIntern = require('./lib/Intern');
 
+// arrays for data to enter
+let questions = [];
 
-
-// team arrays
-let manager = [];
-let engineer = [];
-let intern = [];
-let teamArray = [manager, engineer, intern];
 
 // start of manager prompts 
-async function questions() {
+async function teamPrompts() {
     console.log(`
     =======================================
     |Follow the prompts to create your team|
@@ -31,8 +27,8 @@ async function questions() {
         employee,
         id,
         email,
-        role
-    } = await inquirer
+        role,
+        } = await inquirer
         //start an inquirer prompt to get employee data
         .prompt([
 
@@ -160,47 +156,53 @@ async function questions() {
                     default: false
                 }
             ])
+            
             //pushes intern data from array in to new class
-            .then(({
-                school,
-                extraEntry: extraEntry2
-            }) => {
-                intern.push(new Intern(employee, id, email, school));
-
-                if (extraEntry2) {
-                    return questions();
-                }
-            });
-    }
-};
-
-
-//initialize app by calling the questions function
-questions()
-    //then take the data from questions function and populate data into html template
-    .then(data => {
-        return (teamArray)
-    })
-    //then write the content of the html-layout.js file to a new HTML file in the dist folder
-    .then(fileContent => {
-        return new Promise((resolve, reject) => {
-            fs.writeFile('./dist/index.html', fileContent, err => {
-                //if there is an error return err
-                if (err) {
-                    reject(err);
-
-                    return;
-                }
-                //if there are no errors resolve and notify the user that their html file has been created
-                resolve({
-                    ok: true,
-                    message: console.log(`
-                        ========================================
-                        |Team Profile created inside dist folder|
-                        ========================================
-                    `),
-
-                })
+            .then(data => {
+                questions.push(data)
+                console.log(questions);
+                fs.writeFile("./index.html", generateHTML(questions), err => {
+                  if (err) throw err;
+                  console.log("File successfully written");
+              })
+                
             })
-        })
-    })
+            .then(data => {
+                    if (data.continue === 'Intern') {
+                      fs.appendFile("./index.html", generateIntern(data), err => {
+                        if (err) throw err;
+                        console.log("File successfully written");
+                    })
+                    };
+                    if (data.continue === 'Manager') {
+                      fs.appendFile("./index.html", generateManager(data), err => {
+                        if (err) throw err;
+                        console.log("File successfully written");
+                    })
+                    };
+                    
+                    if (data.continue === 'Engineer') {
+                      fs.appendFile("./index.html", generateEngineer(data), err => {
+                        if (err) throw err;
+                        console.log("File successfully written");
+                    })
+                    };
+                if (data.continue === 'Intern') {
+                  fs.appendFile("./index.html", generateIntern(data), err => {
+                    if (err) throw err;
+                    console.log("File successfully written");
+                })
+                };
+                if (data.askAgain) {     
+                  promptMembers();
+              } else {
+                fs.appendFile("./index.html", '</div> </body> </HTML>', err => {
+                  if (err) throw err;
+                  console.log("File successfully written");
+              })
+              }
+            })
+    
+}
+
+}
