@@ -1,11 +1,14 @@
+const Employee = require("../lib/Employee");
 
 const generateProfiles = data => {
-    teamPrompts = require('teamPrompts')
+    // teamPrompts = require('teamPrompts')
 
     // const {name, id, email, role, employee, id, github,} = teamArray [0];
-//maps data for Manager in to profile
-const manager = data.manager.map(function(teamPrompts) {
-    let managerHtml =`
+    //maps data for Manager in to profile
+    // const manager = data.manager.map(function(teamPrompts) {
+
+    const generateManager = manager => {
+        let managerHtml = `
     <div class="col-4 mt-4">
         <div class="card h-100">
             <div class="card-header">
@@ -20,51 +23,113 @@ const manager = data.manager.map(function(teamPrompts) {
         </div>
     </div>
     `;
-    return managerHtml;
-});
+        return managerHtml;
+    }
 
-//maps data for Engineer in to profile
-engineer = data.engineer.map(function(engineer){
-    let engineerProfile = `
-    <div class="card border col-sm m-4 p-0 shadow" style="min-width: 18rem; max-width:max-content;">
-    <div class="bg-primary justify p-2 text-light">
-        <h2>${engineer.name}</h2>
-        <h4><i class="bi bi-eyeglasses"></i> Engineer<h4>
-    </div>
-    <div class="bg-light p-4">
-        <p class="border" style="font-size: large">ID: ${engineer.id}</p>
-        <p class="border" style="font-size: large">Email: <a href="mailto:${data.email}">${data.email}</a></p>
-        <p class="border mb-0"> Github Profile: <a href="https://github.com/${data.github}" target="_blank">${data.github}</a></p>
-    </div>
-</div>
-    `
-    return engineerProfile;
-});
-
-//maps data for Intern
-intern = data.intern.map(function(data){
-    let internProfile = `
-    <div class="card border col-sm m-4 p-0 shadow" style="min-width: 18rem; max-width:max-content;">
-            <div class="bg-primary justify p-2 text-light">
-                <h2>${data.name}</h2>
-                <h4><i class="bi bi-pencil-fill"></i> Intern<h4>
+    const generateEngineer = engineer => {
+        let engineerHtml = `
+    <div class="col-4 mt-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h3>${engineer.name}</h3>
+                <h4>engineer</h4><i class="material-icons">supervisor_account</i>
             </div>
-            <div class="bg-light p-4">
-                <p class="border" style="font-size: large">ID: ${data.id}</p>
-                <p class="border" style="font-size: large">Email: <a href="mailto:${data.email}">${data.email}</a></p>
-                <p class="border mb-0"> University: ${data.school}</p>
+            <div class="card-body">
+                <p class="id">ID: ${engineer.id}</p>
+                <p class="email">Email: <a href="mailto:${engineer.email}">${engineer.email}</a></p>
+                <p class="office">Github: ${engineer.github}</p>
             </div>
         </div>
-    `
-    return internProfile;
-})
- //combines all profiles in to one
- team = [manager + engineer + intern]
- //return output of profile functions
- return team;
-}
+    </div>
+    `;
+        return engineerHtml;
+    }
 
-module.exports = generateHTML => {
+
+    const generateIntern = intern => {
+        let internHtml = `
+    <div class="col-4 mt-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h3>${intern.name}</h3>
+                <h4>intern</h4><i class="material-icons">supervisor_account</i>
+            </div>
+            <div class="card-body">
+                <p class="id">ID: ${intern.id}</p>
+                <p class="email">Email: <a href="mailto:${intern.email}">${intern.email}</a></p>
+                <p class="office">School: ${intern.school}</p>
+            </div>
+        </div>
+    </div>
+    `;
+        return internHtml;
+    }
+
+const html = [];
+html.push(data
+    .filter(employee => employee.getRole() === 'Manager')
+    .map(manager => generateManager(manager))
+    .join('')
+    )
+
+    html.push(data
+    .filter(employee => employee.getRole() === 'Engineer')
+    .map(engineer => generateEngineer(engineer))
+    .join('')
+    )
+
+    html.push(data
+        .filter(employee => employee.getRole() === 'intern')
+        .map(intern => generateIntern(intern))
+        .join('')
+        )
+
+        return html.join('')
+
+};
+
+// //maps data for Engineer in to profile
+// engineer = data.engineer.map(function (engineer) {
+//     let engineerProfile = `
+//     <div class="card border col-sm m-4 p-0 shadow" style="min-width: 18rem; max-width:max-content;">
+//     <div class="bg-primary justify p-2 text-light">
+//         <h2>${engineer.name}</h2>
+//         <h4><i class="bi bi-eyeglasses"></i> Engineer<h4>
+//     </div>
+//     <div class="bg-light p-4">
+//         <p class="border" style="font-size: large">ID: ${engineer.id}</p>
+//         <p class="border" style="font-size: large">Email: <a href="mailto:${data.email}">${data.email}</a></p>
+//         <p class="border mb-0"> Github Profile: <a href="https://github.com/${data.github}" target="_blank">${data.github}</a></p>
+//     </div>
+// </div>
+//     `
+//     return engineerProfile;
+// });
+
+// //maps data for Intern
+// intern = data.intern.map(function (data) {
+//     let internProfile = `
+//     <div class="card border col-sm m-4 p-0 shadow" style="min-width: 18rem; max-width:max-content;">
+//             <div class="bg-primary justify p-2 text-light">
+//                 <h2>${data.name}</h2>
+//                 <h4><i class="bi bi-pencil-fill"></i> Intern<h4>
+//             </div>
+//             <div class="bg-light p-4">
+//                 <p class="border" style="font-size: large">ID: ${data.id}</p>
+//                 <p class="border" style="font-size: large">Email: <a href="mailto:${data.email}">${data.email}</a></p>
+//                 <p class="border mb-0"> University: ${data.school}</p>
+//             </div>
+//         </div>
+//     `
+//     return internProfile;
+// })
+//combines all profiles in to one
+// team = [manager + engineer + intern]
+// //return output of profile functions
+// return team;
+// }
+
+module.exports = team => {
     return `
     <!DOCTYPE html>
     <html lang="en">
@@ -82,16 +147,10 @@ module.exports = generateHTML => {
         </header>
             <div class="container d-flex flex-wrap justify-content-center" style="min-width: 75vw;">
                 <div class="row col-8 flex-wrap justify-content-center">
-                    ${generateProfiles(questions)}
+                    ${generateProfiles(team)}
                 </div>
             </div>
     </body>
     </html>   
         `
 }
-
-
-
-
-
-
