@@ -79,7 +79,7 @@ html.push(data
     )
 
     html.push(data
-        .filter(employee => employee.getRole() === 'intern')
+        .filter(employee => employee.getRole() === 'Intern')
         .map(intern => generateIntern(intern))
         .join('')
         )

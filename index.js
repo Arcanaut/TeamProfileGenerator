@@ -27,7 +27,7 @@ async function teamPrompts() {
 
         //call inquirer module
 
-        async const prompt = () => {
+        const  prompt = () => {
 
             inquirer.prompt([
 
@@ -35,7 +35,7 @@ async function teamPrompts() {
                     type: 'list',
                     name: 'role',
                     message: "What is the employee's role?",
-                    choices: ['Manager', 'Engineer', 'Intern']
+                    choices: ['Manager', 'Engineer', 'Intern','done']
                 },
             ]).then(userChoice => {
                 switch (userChoice.role) {
@@ -45,8 +45,11 @@ async function teamPrompts() {
                     case "Engineer":
                         addEngineer();
                         break;
-                    default:
+                    case "Intern":
                         addIntern();
+                        break;
+                    default:
+                        buildTeam();
                 }
             })
 
@@ -100,13 +103,9 @@ async function teamPrompts() {
                     },
                 ]).then(data => {
                     teamArray.push(new Manager(data.employee, data.id, data.email, data.officeNumber));
-
-                    if (extraEntry) {
-                        return prompt();
-                    } else {
-                        buildTeam()
-                    }
-                })
+                    console.log("Manager added")
+                    prompt()
+                })}
 
                 const addEngineer = () => {
                     inquirer.prompt([{
@@ -157,12 +156,8 @@ async function teamPrompts() {
 
                     ]).then(data => {
                         teamArray.push(new Engineer(data.employee, data.id, data.email, data.github));
-
-                        if (extraEntry) {
-                            return prompt();
-                        } else {
-                            buildTeam()
-                        }
+                        console.log("Engineer added")
+                        prompt()
                     })
                 };
 
@@ -170,119 +165,53 @@ async function teamPrompts() {
                     inquirer.prompt([{ 
                             type: 'text',
                             name: 'employee',
-                            message: "What is the name of the employee?",
+                            message: "What is the name of the Intern?",
                             validate: nameInput => {
                                 if (nameInput) {
                                     return true;
                                 } else {
-                                    console.log("employee name required");
+                                    console.log("intern name required");
                                     return false;
                                 }
-                            },
+                            }
+                        },
+                        
+                        {
+                            type: 'input',
+                            name: 'id',
+                            message: "What is the Intern's ID number?",
+                            validate: nameInput => {
+                                if (isNaN(nameInput)) {
+                                    console.log("intern ID number required")
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            }
+                        },
+                        {
+                            type: 'text',
+                            name: 'email',
+                            message: "What is the employee's email?"
+                        },
 
                             {
                                 type: 'text',
                                 name: 'school',
                                 message: "What is the Intern's school?"
-                            },
-                        
-
-                        ]).then(data => {
-                            teamArray.push(new Intern(data.employee, data.id, data.email, data.github));
-    
-                            if (extraEntry) {
-                                return prompt();
-                            } else {
-                                buildTeam()
                             }
+                        ]).then(data => {
+                            teamArray.push(new Intern(data.employee, data.id, data.email, data.school));
+                            console.log("Intern added")
+                            prompt()
                         })
                     };
-                   
+                
+
+                    
 
 
-                   
-
-
-                    //Then if the employee is an engineer, ask these additional questions
-                    else if (role === "Engineer") {
-                        return inquirer
-                            .prompt([])
-                            //pushes engineer data from array in to new class
-                            .then(({
-                                github,
-                                extraEntry: extraEntry1
-                            }) => {
-                                engineer.push(new Engineer(employee, id, email, github));
-
-                                if (extraEntry1) {
-                                    return teamArray();
-                                }
-                            });
-                    }
-                    //Then if  employee is an intern, asks these questions too
-                    else if (role === 'Intern') {
-                        return inquirer
-                            .prompt([{
-                                    type: 'text',
-                                    name: 'school',
-                                    message: "What is the Intern's school?"
-                                },
-                                {
-                                    type: 'confirm',
-                                    name: 'extraEntry',
-                                    message: "What you like to add another employee?",
-                                    default: false
-                                }
-                            ])
-
-                            //pushes intern data from array in to new class
-                            .then(data => {
-                                console.log('string');
-                                teamArray.push(data)
-                                console.log(teamArray);
-                                fs.writeFile("./index.html", generateHTML(teamArray), err => {
-                                    if (err) throw err;
-                                    console.log("File successfully written");
-                                })
-
-                            })
-                            .then(data => {
-                                if (data.continue === 'Intern') {
-                                    fs.appendFile("./index.html", Intern(data), err => {
-                                        if (err) throw err;
-                                        console.log("File successfully written");
-                                    })
-                                };
-                                if (data.continue === 'Manager') {
-                                    fs.appendFile("./index.html", Manager(data), err => {
-                                        if (err) throw err;
-                                        console.log("File successfully written");
-                                    })
-                                };
-
-                                if (data.continue === 'Engineer') {
-                                    fs.appendFile("./index.html", Engineer(data), err => {
-                                        if (err) throw err;
-                                        console.log("File successfully written");
-                                    })
-                                };
-                                if (data.continue === 'Intern') {
-                                    fs.appendFile("./index.html", Intern(data), err => {
-                                        if (err) throw err;
-                                        console.log("File successfully written");
-                                    })
-                                };
-                                if (data.askAgain) {
-                                    promptMembers();
-                                } else {
-                                    fs.appendFile("./index.html", '</div> </body> </HTML>', err => {
-                                        if (err) throw err;
-                                        console.log("File successfully written");
-                                    })
-                                }
-                            })
-
-                    }
+            prompt();
 
                 }
                 const buildTeam = () => {
@@ -290,6 +219,7 @@ async function teamPrompts() {
                         fs.mkdirSync(OUTPUT_DIR)
                     }
                     fs.writeFileSync(OUTPUT_PATH, generateHTML(teamArray), 'utf-8')
+                    console.log("file successfully written")
                 }
 
                 teamPrompts();
