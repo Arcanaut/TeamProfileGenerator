@@ -1,6 +1,8 @@
 # TeamProfileGenerator
 A dynamic app using node.js to create the profiles of team members for a project.
 
+![](/screenshots/TPGScreenshot.png")
+
 
 ## Usage
   Go to index.js in the terminal and enter 'node index' which will then summon the prompt. Add as many roles as you'd like, and then choose the 'Done' option to create the file
