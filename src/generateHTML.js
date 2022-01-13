@@ -1,19 +1,17 @@
 const Employee = require("../lib/Employee");
 
 const generateProfiles = data => {
-    // teamPrompts = require('teamPrompts')
 
-    // const {name, id, email, role, employee, id, github,} = teamArray [0];
-    //maps data for Manager in to profile
-    // const manager = data.manager.map(function(teamPrompts) {
+
 
     const generateManager = manager => {
         let managerHtml = `
+        
     <div class="col-4 mt-4">
         <div class="card h-100">
             <div class="card-header">
                 <h3>${manager.name}</h3>
-                <h4>Manager</h4><i class="material-icons">supervisor_account</i>
+                <h4>Manager</h4>
             </div>
             <div class="card-body">
                 <p class="id">ID: ${manager.id}</p>
@@ -32,7 +30,7 @@ const generateProfiles = data => {
         <div class="card h-100">
             <div class="card-header">
                 <h3>${engineer.name}</h3>
-                <h4>engineer</h4><i class="material-icons">supervisor_account</i>
+                <h4>Engineer</h4>
             </div>
             <div class="card-body">
                 <p class="id">ID: ${engineer.id}</p>
@@ -52,7 +50,7 @@ const generateProfiles = data => {
         <div class="card h-100">
             <div class="card-header">
                 <h3>${intern.name}</h3>
-                <h4>intern</h4><i class="material-icons">supervisor_account</i>
+                <h4>Intern</h4>supervisor_account
             </div>
             <div class="card-body">
                 <p class="id">ID: ${intern.id}</p>
@@ -88,47 +86,6 @@ html.push(data
 
 };
 
-// //maps data for Engineer in to profile
-// engineer = data.engineer.map(function (engineer) {
-//     let engineerProfile = `
-//     <div class="card border col-sm m-4 p-0 shadow" style="min-width: 18rem; max-width:max-content;">
-//     <div class="bg-primary justify p-2 text-light">
-//         <h2>${engineer.name}</h2>
-//         <h4><i class="bi bi-eyeglasses"></i> Engineer<h4>
-//     </div>
-//     <div class="bg-light p-4">
-//         <p class="border" style="font-size: large">ID: ${engineer.id}</p>
-//         <p class="border" style="font-size: large">Email: <a href="mailto:${data.email}">${data.email}</a></p>
-//         <p class="border mb-0"> Github Profile: <a href="https://github.com/${data.github}" target="_blank">${data.github}</a></p>
-//     </div>
-// </div>
-//     `
-//     return engineerProfile;
-// });
-
-// //maps data for Intern
-// intern = data.intern.map(function (data) {
-//     let internProfile = `
-//     <div class="card border col-sm m-4 p-0 shadow" style="min-width: 18rem; max-width:max-content;">
-//             <div class="bg-primary justify p-2 text-light">
-//                 <h2>${data.name}</h2>
-//                 <h4><i class="bi bi-pencil-fill"></i> Intern<h4>
-//             </div>
-//             <div class="bg-light p-4">
-//                 <p class="border" style="font-size: large">ID: ${data.id}</p>
-//                 <p class="border" style="font-size: large">Email: <a href="mailto:${data.email}">${data.email}</a></p>
-//                 <p class="border mb-0"> University: ${data.school}</p>
-//             </div>
-//         </div>
-//     `
-//     return internProfile;
-// })
-//combines all profiles in to one
-// team = [manager + engineer + intern]
-// //return output of profile functions
-// return team;
-// }
-
 module.exports = team => {
     return `
     <!DOCTYPE html>
@@ -143,7 +100,7 @@ module.exports = team => {
     </head>
     <body>
         <header class="d-flex  mb-5 justify-content-center align-items-center">
-            <h1 class="text-light m-0">Team Profile Generator</h1>
+            <h1 class=" m-0">Team Profile Generator</h1>
         </header>
             <div class="container d-flex flex-wrap justify-content-center" style="min-width: 75vw;">
                 <div class="row col-8 flex-wrap justify-content-center">

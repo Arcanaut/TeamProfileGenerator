@@ -35,7 +35,7 @@ async function teamPrompts() {
                     type: 'list',
                     name: 'role',
                     message: "What is the employee's role?",
-                    choices: ['Manager', 'Engineer', 'Intern','done']
+                    choices: ['Manager', 'Engineer', 'Intern','Done']
                 },
             ]).then(userChoice => {
                 switch (userChoice.role) {
@@ -125,10 +125,10 @@ async function teamPrompts() {
                         {
                             type: 'input',
                             name: 'id',
-                            message: "What is the employee's ID number?",
+                            message: "What is the engineer's ID number?",
                             validate: nameInput => {
                                 if (isNaN(nameInput)) {
-                                    console.log("employee's ID number required")
+                                    console.log("engineer's ID number required")
                                     return false;
                                 } else {
                                     return true;
@@ -138,12 +138,12 @@ async function teamPrompts() {
                         {
                             type: 'text',
                             name: 'email',
-                            message: "What is the employee's email?"
+                            message: "What is the engineer's email?"
                         },
                         {
                             type: 'text',
                             name: 'github',
-                            message: "What is the Engineer's Github username?",
+                            message: "What is the engineer's Github username?",
                             validate: nameInput => {
                                 if (nameInput) {
                                     return true;
@@ -219,7 +219,7 @@ async function teamPrompts() {
                         fs.mkdirSync(OUTPUT_DIR)
                     }
                     fs.writeFileSync(OUTPUT_PATH, generateHTML(teamArray), 'utf-8')
-                    console.log("file successfully written")
+                    console.log("file successfully created in output folder")
                 }
 
                 teamPrompts();
