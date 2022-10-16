@@ -1,7 +1,7 @@
 # TeamProfileGenerator
 A dynamic app using node.js to create the profiles of team members for a project.
 
-![](/screenshots/TPGScreenshot.png)
+![](https://github.com/Arcanaut/React-Portfolio/blob/main/images/portfolio.png)
 
 
 ## Usage
